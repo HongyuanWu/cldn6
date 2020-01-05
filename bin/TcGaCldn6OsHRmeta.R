@@ -24,6 +24,15 @@ ensg2bed<-function(ENSG){
   return(bed)
 }
 
+chr2num<-function(x){
+x<-output$V1
+x<-gsub("chr","",x)
+x[x=="X"]<-23
+x[x=="Y"]<-24
+return(x)
+}
+
+
 load("~/hpc/methylation/Pancancer/RNA-seq/rnaseqdata.pancancer.RData")
 
 TCGAProjects=c("BLCA","BRCA","CESC","CHOL","COAD","ESCA","GBM","HNSC","KICH","KIRC","KIRP","LIHC","LUAD","LUSC","PAAD","PCPG","PRAD","READ","SARC","STAD","THCA","THYM","UCEC")
@@ -163,11 +172,10 @@ output<-data.frame(ensg[match(unlist(lapply(strsplit(rownames(out3),"[.]"),funct
 
 memo="cldn6.HR.OS"
 
-cminput<-data.frame(SNP=output$V5,Chromosome=output$V1,Position=output$V2,trait1=output$pval.fix)
+cminput<-data.frame(SNP=output$V5,Chromosome=chr2num(output$V1),Position=output$V2,trait1=output$pval.fix)
 CMplot(cminput,plot.type="b",memo=paste(memo,".fix",sep=""),LOG10=TRUE,threshold=NULL,file="jpg",dpi=300,file.output=TRUE,verbose=TRUE,width=14,height=6)
 write.table(cminput,file=paste(memo,".pval.fix.manhattan.qqplot.meta.dge.txt",sep=""),sep="\t",quote=F,row.name=T,col.names=NA)
 
-cminput<-data.frame(SNP=output$V5,Chromosome=output$V1,Position=output$V2,trait1=output$pval.random)
+cminput<-data.frame(SNP=output$V5,Chromosome=chr2num(output$V1),Position=output$V2,trait1=output$pval.random)
 CMplot(cminput,plot.type="b",memo=paste(memo,".random",sep=""),LOG10=TRUE,threshold=NULL,file="jpg",dpi=300,file.output=TRUE,verbose=TRUE,width=14,height=6)
 write.table(cminput,file=paste(memo,".pval.random.manhattan.qqplot.meta.dge.txt",sep=""),sep="\t",quote=F,row.name=T,col.names=NA)
-
