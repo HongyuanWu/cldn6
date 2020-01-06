@@ -48,9 +48,3 @@ write.table(cminput,file=paste(memo,".pval.fix.manhattan.qqplot.meta.OS.HR.txt",
 cminput<-data.frame(SNP=output$V5,Chromosome=chr2num(output$V1),Position=output$V2,trait1=output$pval.random)
 CMplot(cminput,plot.type="b",memo=paste(memo,".random",sep=""),LOG10=TRUE,threshold=NULL,file="jpg",dpi=300,file.output=TRUE,verbose=TRUE,width=14,height=6)
 write.table(cminput,file=paste(memo,".pval.random.manhattan.qqplot.meta.OS.HR.txt",sep=""),sep="\t",quote=F,row.name=T,col.names=NA)
-
-
-
-
-
-
